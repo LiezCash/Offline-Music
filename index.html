@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="Offline Music PWA — локальная музыкальная библиотека, доступная без интернета.">
+  <title>Offline Music PWA</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">PWA · IndexedDB · Offline</p>
+        <h1>Offline Music</h1>
+        <p class="hero__text">Добавляйте MP3 с устройства, слушайте без интернета и сохраняйте библиотеку между сессиями.</p>
+      </div>
+      <div class="status-card" aria-live="polite">
+        <span class="status-dot" id="connectionDot"></span>
+        <span id="connectionStatus">Проверяем соединение…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Управление библиотекой">
+        <input id="fileInput" class="visually-hidden" type="file" accept="audio/mpeg,.mp3" multiple>
+        <button class="button button--primary" id="addTracksButton" type="button">Добавить треки</button>
+        <button class="button button--danger" id="clearLibraryButton" type="button">Очистить библиотеку</button>
+        <div class="library-summary" id="librarySummary">Библиотека пуста</div>
+      </section>
+
+      <section class="player-panel" aria-label="Аудиоплеер">
+        <div class="now-playing">
+          <span class="now-playing__label">Сейчас играет</span>
+          <strong id="currentTrackTitle">Выберите трек</strong>
+        </div>
+        <audio id="audioPlayer" preload="metadata"></audio>
+        <div class="controls">
+          <button class="round-button" id="playPauseButton" type="button" aria-label="Воспроизвести" disabled>▶</button>
+          <span class="time" id="currentTime">0:00</span>
+          <input class="seek" id="seekBar" type="range" min="0" max="100" value="0" step="0.1" aria-label="Перемотка" disabled>
+          <span class="time" id="durationTime">0:00</span>
+          <label class="volume-control">
+            <span>Громкость</span>
+            <input id="volumeControl" type="range" min="0" max="1" value="0.85" step="0.01" aria-label="Громкость">
+          </label>
+        </div>
+      </section>
+
+      <section class="library" aria-label="Музыкальная библиотека">
+        <div class="section-heading">
+          <h2>Моя библиотека</h2>
+          <span id="offlineHint">Треки хранятся локально в браузере.</span>
+        </div>
+        <ul class="track-list" id="trackList"></ul>
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state__icon">♪</div>
+          <h3>Добавьте первые MP3-файлы</h3>
+          <p>После первого посещения интерфейс и сохранённые треки будут доступны офлайн.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="trackTemplate">
+    <li class="track-card">
+      <button class="track-card__main" type="button">
+        <span class="track-card__art">♫</span>
+        <span class="track-card__info">
+          <strong class="track-card__title"></strong>
+          <span class="track-card__meta"></span>
+        </span>
+      </button>
+      <button class="icon-button delete-track" type="button" aria-label="Удалить трек">Удалить</button>
+    </li>
+  </template>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
